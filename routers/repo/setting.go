@@ -309,6 +309,8 @@ func WebHooksNewPost(ctx *middleware.Context, form auth.NewWebhookForm) {
 	ct := models.JSON
 	if form.ContentType == "2" {
 		ct = models.FORM
+	} else if form.ContentType == "3" {
+		ct = models.NONE
 	}
 
 	w := &models.Webhook{
@@ -416,6 +418,8 @@ func WebHooksEditPost(ctx *middleware.Context, form auth.NewWebhookForm) {
 	ct := models.JSON
 	if form.ContentType == "2" {
 		ct = models.FORM
+	} else if form.ContentType == "3" {
+		ct = models.NONE
 	}
 
 	w.Url = form.PayloadUrl

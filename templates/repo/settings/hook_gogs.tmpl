@@ -12,6 +12,7 @@
       <select name="content_type">
           <option value="1" {{if or .PageIsSettingsHooksNew (eq .Webhook.ContentType 1)}}selected{{end}}>application/json</option>
           <option value="2" {{if eq .Webhook.ContentType 2}}selected{{end}}>application/x-www-form-urlencoded</option>
+          <option value="3" {{if eq .Webhook.ContentType 3}}selected{{end}}>none</option>
       </select>
     </div>
     <div class="field">

@@ -26,11 +26,13 @@ type HookContentType int
 const (
 	JSON HookContentType = iota + 1
 	FORM
+	NONE
 )
 
 var hookContentTypes = map[string]HookContentType{
 	"json": JSON,
 	"form": FORM,
+	"none": NONE,
 }
 
 // ToHookContentType returns HookContentType by given name.
@@ -44,6 +46,8 @@ func (t HookContentType) Name() string {
 		return "json"
 	case FORM:
 		return "form"
+	case NONE:
+		return "none"
 	}
 	return ""
 }
@@ -322,6 +326,9 @@ func DeliverHooks() {
 				req = req.Header("Content-Type", "application/json").Body(t.PayloadContent)
 			case FORM:
 				req.Param("payload", t.PayloadContent)
+
+			case NONE:
+				req = req.Header("Content-Type", "application/json")
 			}
 
 			t.IsDelivered = true
