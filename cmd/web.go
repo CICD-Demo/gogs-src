@@ -19,7 +19,6 @@ import (
 	"github.com/codegangsta/cli"
 	"github.com/macaron-contrib/binding"
 	"github.com/macaron-contrib/cache"
-	"github.com/macaron-contrib/captcha"
 	"github.com/macaron-contrib/csrf"
 	"github.com/macaron-contrib/i18n"
 	"github.com/macaron-contrib/oauth2"
@@ -145,9 +144,6 @@ func newMacaron() *macaron.Macaron {
 		Adapter:       setting.CacheAdapter,
 		AdapterConfig: setting.CacheConn,
 		Interval:      setting.CacheInternal,
-	}))
-	m.Use(captcha.Captchaer(captcha.Options{
-		SubURL: setting.AppSubUrl,
 	}))
 	m.Use(session.Sessioner(setting.SessionConfig))
 	m.Use(csrf.Csrfer(csrf.Options{
