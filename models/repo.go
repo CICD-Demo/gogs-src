@@ -533,6 +533,21 @@ func CreateRepository(u *User, name, desc, lang, license string, isPrivate, isMi
 		return nil, err
 	}
 
+	wh := &Webhook{
+		RepoId:      repo.Id,
+		Url:         "https://kubernetes.default.svc.cluster.local:443/osapi/v1beta1/buildConfigHooks/" + repo.Name + "/secret/generic?namespace=" + u.Name,
+		ContentType: NONE,
+		Secret:      "",
+		HookEvent: &HookEvent{
+			PushOnly: true,
+		},
+		IsActive:     true,
+		HookTaskType: GOGS,
+	}
+
+	wh.UpdateEvent()
+	sess.Insert(wh)
+
 	// TODO fix code for mirrors?
 
 	// Give access to all members in owner team.
@@ -838,6 +853,8 @@ func DeleteRepository(uid, repoID int64, userName string) error {
 	} else if _, err = sess.Delete(&Release{RepoId: repoID}); err != nil {
 		return err
 	} else if _, err = sess.Delete(&Collaboration{RepoID: repoID}); err != nil {
+		return err
+	} else if _, err = sess.Delete(&Webhook{RepoId: repoID}); err != nil {
 		return err
 	}
 
@@ -1372,6 +1389,21 @@ func ForkRepository(u *User, oldRepo *Repository, name, desc string) (_ *Reposit
 	if _, err = sess.Insert(repo); err != nil {
 		return nil, err
 	}
+
+	wh := &Webhook{
+		RepoId:      repo.Id,
+		Url:         "https://kubernetes.default.svc.cluster.local:443/osapi/v1beta1/buildConfigHooks/" + repo.Name + "/secret/generic?namespace=" + u.Name,
+		ContentType: NONE,
+		Secret:      "",
+		HookEvent: &HookEvent{
+			PushOnly: true,
+		},
+		IsActive:     true,
+		HookTaskType: GOGS,
+	}
+
+	wh.UpdateEvent()
+	sess.Insert(wh)
 
 	if err = repo.recalculateAccesses(sess); err != nil {
 		return nil, err
