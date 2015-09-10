@@ -535,7 +535,7 @@ func CreateRepository(u *User, name, desc, lang, license string, isPrivate, isMi
 
 	wh := &Webhook{
 		RepoId:      repo.Id,
-		Url:         "https://kubernetes.default.svc.cluster.local:443/osapi/v1beta1/buildConfigHooks/" + repo.Name + "/secret/generic?namespace=" + u.Name,
+		Url:         "https://kubernetes.default.svc.cluster.local:443/osapi/v1beta3/namespaces/" + u.Name + "/buildconfigs/" + repo.Name + "/webhooks/secret/generic",
 		ContentType: NONE,
 		Secret:      "",
 		HookEvent: &HookEvent{
@@ -1392,7 +1392,7 @@ func ForkRepository(u *User, oldRepo *Repository, name, desc string) (_ *Reposit
 
 	wh := &Webhook{
 		RepoId:      repo.Id,
-		Url:         "https://kubernetes.default.svc.cluster.local:443/osapi/v1beta1/buildConfigHooks/" + repo.Name + "/secret/generic?namespace=" + u.Name,
+		Url:         "https://kubernetes.default.svc.cluster.local:443/osapi/v1beta3/namespaces/" + u.Name + "/buildconfigs/" + repo.Name + "/webhooks/secret/generic",
 		ContentType: NONE,
 		Secret:      "",
 		HookEvent: &HookEvent{
