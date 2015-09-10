@@ -9,7 +9,6 @@ package cmd
 
 import (
 	"crypto/ecdsa"
-	"crypto/elliptic"
 	"crypto/rand"
 	"crypto/rsa"
 	"crypto/x509"
@@ -77,14 +76,6 @@ func runCert(ctx *cli.Context) {
 	switch ctx.String("ecdsa-curve") {
 	case "":
 		priv, err = rsa.GenerateKey(rand.Reader, ctx.Int("rsa-bits"))
-	case "P224":
-		priv, err = ecdsa.GenerateKey(elliptic.P224(), rand.Reader)
-	case "P256":
-		priv, err = ecdsa.GenerateKey(elliptic.P256(), rand.Reader)
-	case "P384":
-		priv, err = ecdsa.GenerateKey(elliptic.P384(), rand.Reader)
-	case "P521":
-		priv, err = ecdsa.GenerateKey(elliptic.P521(), rand.Reader)
 	default:
 		log.Fatalf("Unrecognized elliptic curve: %q", ctx.String("ecdsa-curve"))
 	}
